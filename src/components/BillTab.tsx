@@ -37,8 +37,23 @@ export function BillTab({
   const [billTime, setBillTime] = useState("");
 
   useEffect(() => {
-    setBillTime(new Date().toLocaleString("en-IN"));
-  }, [cart]);
+    const updateTime = () => {
+      setBillTime(
+        new Date().toLocaleString("en-IN", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          hour12: true,
+        })
+      );
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) =>
@@ -47,9 +62,19 @@ export function BillTab({
   }, [products, searchQuery]);
 
   const addToCart = (id: string) => {
+    const prod = products.find((p) => p.id === id);
+    if (prod && prod.stock !== undefined && prod.stock <= 0) {
+      alert(`"${prod.name}" is currently out of stock!`);
+      return;
+    }
+
     setCart((prev) => {
       const existing = prev.find((item) => item.id === id);
       if (existing) {
+        if (prod && prod.stock !== undefined && existing.qty >= prod.stock) {
+          alert(`Cannot add more than available stock (${prod.stock} units)`);
+          return prev;
+        }
         return prev.map((item) =>
           item.id === id ? { ...item, qty: item.qty + 1 } : item
         );
@@ -59,6 +84,12 @@ export function BillTab({
   };
 
   const updateQty = (id: string, qty: number) => {
+    const prod = products.find((p) => p.id === id);
+    if (prod && prod.stock !== undefined && qty > prod.stock) {
+      alert(`Cannot exceed available stock of ${prod.stock} units`);
+      return;
+    }
+
     setCart((prev) => {
       if (qty <= 0) {
         return prev.filter((item) => item.id !== id);
@@ -146,7 +177,14 @@ export function BillTab({
 
     const newSale: SaleRecord = {
       no: currentBillNo,
-      date: new Date().toLocaleString("en-IN"),
+      date: new Date().toLocaleString("en-IN", {
+        day: "numeric",
+        month: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      }),
       total: calculations.total,
       customer: customerDetails.trim() || undefined,
       ts: Date.now(),
