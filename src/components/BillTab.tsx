@@ -4,6 +4,15 @@ import React, { useState, useMemo, useEffect } from "react";
 import { Product, CartItem, ShopDetails, SaleRecord, CalculatedLineItem } from "@/types/billing";
 import { Receipt } from "./Receipt";
 import { formatCurrency, getCostPrice } from "@/lib/constants";
+import {
+  Search,
+  User,
+  Trash2,
+  Printer,
+  CheckCircle2,
+  AlertCircle,
+  Tag,
+} from "lucide-react";
 
 interface BillTabProps {
   products: Product[];
@@ -111,6 +120,8 @@ export function BillTab({
 
   const handleClear = () => {
     setCart([]);
+    setDiscount(0);
+    setCustomerDetails("");
   };
 
   const handlePrintAndSave = () => {
@@ -165,7 +176,7 @@ export function BillTab({
 
   return (
     <main className="grid gap-6 p-4 lg:grid-cols-[1fr_390px] lg:gap-0 lg:p-0">
-      {/* Product Catalog Column */}
+      {/* Left: Product Catalog */}
       <section className="no-print space-y-4 lg:p-6">
         <div className="relative max-w-2xl">
           <input
@@ -174,21 +185,7 @@ export function BillTab({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <svg
-            className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-teal-bright"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-teal-bright" />
         </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
@@ -262,77 +259,42 @@ export function BillTab({
         </div>
       </section>
 
-      {/* Bill & Receipt Sidebar */}
-      <aside className="space-y-3.5 self-start lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto lg:border-l lg:border-primary/10 lg:bg-card lg:p-4">
-        <div className="no-print space-y-2.5 rounded-2xl border border-primary/10 bg-secondary/50 p-3.5">
-          <label className="block">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-              Customer details
+      {/* Right: Unified POS Register Card */}
+      <aside className="space-y-3 self-start lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto lg:border-l lg:border-primary/10 lg:bg-card lg:p-4">
+        {/* Panel Header */}
+        <div className="no-print flex items-center justify-between pb-1 border-b border-primary/10">
+          <div>
+            <span className="font-display text-sm uppercase tracking-wider text-primary">
+              Current Invoice
             </span>
-            <input
-              className="mt-1 w-full rounded-xl border border-input bg-card px-3 py-2 text-xs outline-none transition focus:border-teal-bright focus:ring-2 focus:ring-teal-bright/20"
-              placeholder="Customer name / phone (optional)"
-              value={customerDetails}
-              onChange={(e) => setCustomerDetails(e.target.value)}
-            />
-          </label>
-
-          <div className="flex items-end gap-2.5">
-            <label className="flex-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-                Discount ₹
-              </span>
-              <input
-                type="number"
-                min={0}
-                className="mt-1 w-full rounded-xl border border-input bg-card px-3 py-2 text-xs outline-none transition focus:border-teal-bright focus:ring-2 focus:ring-teal-bright/20"
-                value={discount || ""}
-                onChange={(e) => setDiscount(Number(e.target.value) || 0)}
-              />
-            </label>
-            <label className="flex cursor-pointer items-center gap-1.5 pb-2 text-xs font-semibold text-foreground">
-              <input
-                type="checkbox"
-                checked={isIgst}
-                onChange={(e) => setIsIgst(e.target.checked)}
-                className="h-3.5 w-3.5 accent-primary"
-              />
-              IGST sale
-            </label>
+            <span className="ml-2 font-mono text-xs text-muted-foreground">
+              #{currentBillNo}
+            </span>
           </div>
 
-          {/* Payment Status Option */}
-          <div className="flex items-center justify-between border-t border-primary/10 pt-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">
-              Status:
-            </span>
-            <div className="flex rounded-lg bg-card p-0.5 border border-input text-xs font-semibold">
-              <button
-                type="button"
-                onClick={() => setPaymentStatus("paid")}
-                className={`rounded-md px-2.5 py-1 text-[11px] transition-all ${
-                  paymentStatus === "paid"
-                    ? "bg-emerald-600 text-white shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Paid
-              </button>
-              <button
-                type="button"
-                onClick={() => setPaymentStatus("pending")}
-                className={`rounded-md px-2.5 py-1 text-[11px] transition-all ${
-                  paymentStatus === "pending"
-                    ? "bg-amber-600 text-white shadow-xs"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Due (Pending)
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={handleClear}
+            disabled={!cart.length}
+            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive disabled:opacity-30 disabled:pointer-events-none"
+            title="Clear current cart"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+            <span>Clear</span>
+          </button>
         </div>
 
+        {/* Customer Input Field */}
+        <div className="no-print relative">
+          <User className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+          <input
+            className="w-full rounded-xl border border-input bg-card pl-9 pr-3 py-2 text-xs outline-none transition focus:border-teal-bright focus:ring-2 focus:ring-teal-bright/20"
+            placeholder="Customer name / mobile (optional)"
+            value={customerDetails}
+            onChange={(e) => setCustomerDetails(e.target.value)}
+          />
+        </div>
+
+        {/* Live Thermal Receipt Preview */}
         <Receipt
           shop={shop}
           billNo={currentBillNo}
@@ -348,20 +310,78 @@ export function BillTab({
           updateQty={updateQty}
         />
 
-        <div className="no-print grid grid-cols-3 gap-2 pt-1">
-          <button
-            className="rounded-xl border border-primary/20 bg-secondary py-3 px-2 text-xs font-semibold text-primary transition-all hover:bg-primary/10 disabled:opacity-40"
-            onClick={handleClear}
-            disabled={!cart.length}
-          >
-            Clear
-          </button>
+        {/* Checkout Options: Discount & IGST */}
+        <div className="no-print rounded-xl border border-primary/10 bg-secondary/40 p-2.5 space-y-2">
+          <div className="flex items-center justify-between gap-3 text-xs">
+            {/* Inline Discount */}
+            <div className="flex items-center gap-1.5 flex-1">
+              <Tag className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <span className="text-[11px] font-bold text-foreground">Discount ₹:</span>
+              <input
+                type="number"
+                min={0}
+                placeholder="0"
+                className="w-16 rounded-lg border border-input bg-card px-2 py-1 text-xs font-mono text-right outline-none focus:border-teal-bright focus:ring-1 focus:ring-teal-bright/20"
+                value={discount || ""}
+                onChange={(e) => setDiscount(Number(e.target.value) || 0)}
+              />
+            </div>
+
+            {/* IGST Pill Toggle */}
+            <label className="flex cursor-pointer items-center gap-1.5 text-xs font-semibold select-none">
+              <input
+                type="checkbox"
+                checked={isIgst}
+                onChange={(e) => setIsIgst(e.target.checked)}
+                className="h-3.5 w-3.5 accent-primary rounded cursor-pointer"
+              />
+              <span className="text-[11px] text-foreground">IGST Sale</span>
+            </label>
+          </div>
+
+          {/* Payment Status Segmented Control */}
+          <div className="grid grid-cols-2 gap-1 rounded-lg bg-card p-1 border border-input text-xs font-semibold">
+            <button
+              type="button"
+              onClick={() => setPaymentStatus("paid")}
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-md transition-all ${
+                paymentStatus === "paid"
+                  ? "bg-emerald-600 text-white shadow-xs font-bold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              <span>Paid</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaymentStatus("pending")}
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-md transition-all ${
+                paymentStatus === "pending"
+                  ? "bg-amber-600 text-white shadow-xs font-bold"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <AlertCircle className="h-3.5 w-3.5" />
+              <span>Due (Khata)</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Primary Checkout Button */}
+        <div className="no-print pt-1">
           <button
             disabled={!cart.length}
             onClick={handlePrintAndSave}
-            className="col-span-2 rounded-xl bg-marigold px-4 py-3 font-display text-xs uppercase tracking-wide text-accent-foreground shadow-md shadow-marigold/30 transition-all hover:bg-primary hover:text-primary-foreground active:scale-95 disabled:opacity-40"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-marigold px-4 py-3.5 font-display text-sm uppercase tracking-wider text-accent-foreground shadow-md shadow-marigold/30 transition-all hover:bg-primary hover:text-primary-foreground active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
           >
-            Print & save bill
+            <Printer className="h-4 w-4" />
+            <span>Print &amp; Save Bill</span>
+            {calculations.total > 0 && (
+              <span className="ml-1 rounded bg-black/10 px-1.5 py-0.5 font-mono text-xs font-bold">
+                {formatCurrency(calculations.total)}
+              </span>
+            )}
           </button>
         </div>
       </aside>

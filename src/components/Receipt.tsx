@@ -43,7 +43,7 @@ export function Receipt({
   updateQty,
 }: ReceiptProps) {
   return (
-    <div id="receipt" className="mx-auto bg-paper font-mono text-xs shadow-lg">
+    <div id="receipt" className="mx-auto w-full bg-paper font-mono text-xs shadow-sm rounded-xl border border-primary/15 overflow-hidden">
       <div className="p-5">
         <div className="text-center">
           <div className="font-display text-base uppercase">{shop.name}</div>
