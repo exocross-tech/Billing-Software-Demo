@@ -65,48 +65,53 @@ export function Receipt({
         <table className="w-full">
           <thead>
             <tr className="border-b border-dashed border-border text-left">
-              <th>Item</th>
-              <th className="text-center">Qty</th>
-              <th className="text-right">Amt</th>
+              <th className="pb-1">Item</th>
+              <th className="pb-1 text-center">Qty</th>
+              <th className="pb-1 text-right">Amt</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-dashed divide-border/50">
             {lines.map((item) => (
               <tr key={item.id} className="align-top">
-                <td className="py-1">
-                  {item.name}
-                  <div className="text-muted-foreground">
-                    @{item.price} · {item.gst}%
+                <td className="py-1.5 pr-2">
+                  <div className="font-semibold leading-tight text-foreground">{item.name}</div>
+                  <div className="text-[10px] text-muted-foreground mt-0.5">
+                    ₹{item.price} · GST {item.gst}%
                   </div>
                 </td>
-                <td className="py-1 text-center">
-                  <span className="no-print inline-flex items-center gap-1">
+                <td className="py-1.5 text-center whitespace-nowrap">
+                  <span className="no-print inline-flex items-center gap-1.5 bg-secondary/80 rounded-lg p-0.5 border border-primary/10">
                     <button
-                      className="px-1 text-primary hover:font-bold"
+                      className="flex h-5 w-5 items-center justify-center rounded bg-card text-primary font-black shadow-2xs hover:bg-primary hover:text-white active:scale-90"
                       onClick={() => updateQty(item.id, item.qty - 1)}
+                      aria-label="Decrease quantity"
                     >
                       −
                     </button>
-                    <span>{item.qty}</span>
+                    <span className="min-w-[16px] text-center font-bold text-xs">{item.qty}</span>
                     <button
-                      className="px-1 text-primary hover:font-bold"
+                      className="flex h-5 w-5 items-center justify-center rounded bg-card text-primary font-black shadow-2xs hover:bg-primary hover:text-white active:scale-90"
                       onClick={() => updateQty(item.id, item.qty + 1)}
+                      aria-label="Increase quantity"
                     >
                       +
                     </button>
                   </span>
-                  <span className="hidden print:inline">{item.qty}</span>
+                  <span className="hidden print:inline font-bold">{item.qty}</span>
                 </td>
-                <td className="py-1 text-right">{item.gross.toFixed(2)}</td>
+                <td className="py-1.5 text-right font-bold text-foreground">
+                  {item.gross.toFixed(2)}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
 
         {!lines.length && (
-          <p className="py-6 text-center text-muted-foreground">
-            Tap items to add them
-          </p>
+          <div className="py-8 text-center text-muted-foreground">
+            <p className="text-xs">No items added to invoice.</p>
+            <p className="text-[10px] mt-1 text-muted-foreground/80">Tap products to add them to your bill</p>
+          </div>
         )}
 
         <div className="mt-2 space-y-0.5 border-t border-dashed border-border pt-2">

@@ -97,112 +97,112 @@ export function DashboardTab({
   const recentBills = sales.slice(0, 4);
 
   return (
-    <main className="mx-auto max-w-6xl space-y-4 p-4 lg:p-6">
+    <main className="mx-auto max-w-6xl space-y-4 p-3.5 sm:p-4 lg:p-6">
       {/* Top Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2.5">
         <div>
-          <h1 className="font-display text-xl uppercase tracking-tight text-primary">
+          <h1 className="font-display text-lg sm:text-xl uppercase tracking-tight text-primary leading-tight">
             Store Dashboard
           </h1>
-          <p className="text-xs text-muted-foreground">
-            Today&apos;s live counter performance &amp; inventory summary
+          <p className="text-[11px] sm:text-xs text-muted-foreground">
+            Today&apos;s counter performance &amp; inventory summary
           </p>
         </div>
 
         {onNewBillClick && (
           <button
             onClick={onNewBillClick}
-            className="flex items-center gap-1.5 rounded-xl bg-primary px-3.5 py-2 text-xs font-semibold text-primary-foreground shadow-xs transition-all hover:bg-primary/90"
+            className="flex items-center gap-1.5 rounded-xl bg-primary px-3.5 py-2 text-xs font-bold text-primary-foreground shadow-xs transition-all hover:bg-primary/90 active:scale-95"
           >
             <Receipt className="h-3.5 w-3.5" />
-            <span>New Bill</span>
+            <span>+ New Bill</span>
           </button>
         )}
       </div>
 
-      {/* 4 CORE KPI CARDS ONLY */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {/* 4 CORE KPI CARDS */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3 sm:grid-cols-4">
         {/* Card 1: Today's Sales */}
-        <div className="rounded-2xl border border-primary/15 bg-card p-4 shadow-xs transition-all hover:border-primary/30">
+        <div className="rounded-2xl border border-primary/15 bg-card p-3 sm:p-4 shadow-xs transition-all hover:border-primary/30">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Today&apos;s Sales
             </span>
-            <span className="rounded-lg bg-primary/10 p-1.5 text-primary">
-              <Banknote className="h-4 w-4" />
+            <span className="rounded-lg bg-primary/10 p-1 text-primary">
+              <Banknote className="h-3.5 w-3.5" />
             </span>
           </div>
-          <div className="mt-2 font-display text-2xl text-primary">
+          <div className="mt-1.5 font-display text-lg sm:text-2xl text-primary font-bold">
             {formatCurrency(todayRevenue)}
           </div>
-          <div className="mt-1 flex items-center gap-1 text-[11px] text-muted-foreground font-semibold">
+          <div className="mt-1 flex items-center gap-1 text-[10px] sm:text-[11px] text-muted-foreground font-semibold">
             <span className="text-primary">{todaySales.length} bills today</span>
           </div>
         </div>
 
         {/* Card 2: Today's Profit */}
-        <div className="rounded-2xl border border-marigold/30 bg-card p-4 shadow-xs transition-all hover:border-marigold/60">
+        <div className="rounded-2xl border border-marigold/30 bg-card p-3 sm:p-4 shadow-xs transition-all hover:border-marigold/60">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Today&apos;s Profit
             </span>
-            <span className="rounded-lg bg-marigold/20 p-1.5 text-amber-900 dark:text-amber-200">
-              <TrendingUp className="h-4 w-4" />
+            <span className="rounded-lg bg-marigold/20 p-1 text-amber-900 dark:text-amber-200">
+              <TrendingUp className="h-3.5 w-3.5" />
             </span>
           </div>
-          <div className="mt-2 font-display text-2xl text-foreground">
+          <div className="mt-1.5 font-display text-lg sm:text-2xl text-foreground font-bold">
             {formatCurrency(todayProfit)}
           </div>
-          <div className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-            <ArrowUpRight className="h-3 w-3" />
-            <span>{todayMargin}% profit margin</span>
+          <div className="mt-1 flex items-center gap-0.5 text-[10px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+            <ArrowUpRight className="h-3 w-3 shrink-0" />
+            <span className="truncate">{todayMargin}% margin</span>
           </div>
         </div>
 
         {/* Card 3: Pending Payments */}
-        <div className="rounded-2xl border border-amber-500/20 bg-card p-4 shadow-xs transition-all hover:border-amber-500/40">
+        <div className="rounded-2xl border border-amber-500/20 bg-card p-3 sm:p-4 shadow-xs transition-all hover:border-amber-500/40">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-              Pending Payments
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+              Pending Dues
             </span>
-            <span className="rounded-lg bg-amber-500/10 p-1.5 text-amber-600">
-              <AlertCircle className="h-4 w-4" />
+            <span className="rounded-lg bg-amber-500/10 p-1 text-amber-600">
+              <AlertCircle className="h-3.5 w-3.5" />
             </span>
           </div>
-          <div className="mt-2 font-display text-2xl text-amber-700 dark:text-amber-400">
+          <div className="mt-1.5 font-display text-lg sm:text-2xl text-amber-700 dark:text-amber-400 font-bold">
             {formatCurrency(pendingAmount)}
           </div>
-          <div className="mt-1 text-[11px] font-semibold text-amber-700/80 dark:text-amber-300">
-            {pendingSales.length} unpaid counter dues
+          <div className="mt-1 text-[10px] sm:text-[11px] font-semibold text-amber-700/80 dark:text-amber-300 truncate">
+            {pendingSales.length} unpaid dues
           </div>
         </div>
 
         {/* Card 4: Total Bills */}
-        <div className="rounded-2xl border border-border bg-card p-4 shadow-xs transition-all hover:border-primary/20">
+        <div className="rounded-2xl border border-border bg-card p-3 sm:p-4 shadow-xs transition-all hover:border-primary/20">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
               Total Bills
             </span>
-            <span className="rounded-lg bg-secondary p-1.5 text-primary">
-              <Receipt className="h-4 w-4" />
+            <span className="rounded-lg bg-secondary p-1 text-primary">
+              <Receipt className="h-3.5 w-3.5" />
             </span>
           </div>
-          <div className="mt-2 font-display text-2xl text-primary">
+          <div className="mt-1.5 font-display text-lg sm:text-2xl text-primary font-bold">
             {totalBillsCount}
           </div>
-          <div className="mt-1 text-[11px] text-muted-foreground font-semibold">
-            Lifetime bills generated
+          <div className="mt-1 text-[10px] sm:text-[11px] text-muted-foreground font-semibold">
+            All-time count
           </div>
         </div>
       </div>
 
-      {/* COMPACT 2-COLUMN VIEW (Designed to avoid scrolling) */}
-      <div className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
+      {/* COMPACT 2-COLUMN VIEW */}
+      <div className="grid gap-3.5 sm:gap-4 lg:grid-cols-[1.25fr_1fr]">
         {/* Left Column: 7-Day Chart & Recent Transactions */}
-        <div className="space-y-4">
+        <div className="space-y-3.5 sm:space-y-4">
           {/* Compact 7-Day Sales Trend Bar Chart */}
-          <section className="rounded-2xl border border-border bg-card p-4 shadow-xs">
-            <div className="mb-3 flex items-center justify-between">
+          <section className="rounded-2xl border border-border bg-card p-3.5 sm:p-4 shadow-xs">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-1">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
                   7-Day Sales Trajectory
@@ -211,9 +211,9 @@ export function DashboardTab({
                   Daily billing volume (past week)
                 </span>
               </div>
-              <div className="flex items-center gap-3 text-[10px] font-semibold text-muted-foreground">
+              <div className="flex items-center gap-2.5 text-[10px] font-semibold text-muted-foreground">
                 <span className="flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-full bg-primary" /> Past Days
+                  <span className="h-2 w-2 rounded-full bg-primary" /> Past
                 </span>
                 <span className="flex items-center gap-1">
                   <span className="h-2 w-2 rounded-full bg-marigold" /> Today
@@ -221,8 +221,8 @@ export function DashboardTab({
               </div>
             </div>
 
-            {/* Compact Bar Chart (100px height) */}
-            <div className="flex h-28 items-end gap-2 pt-2">
+            {/* Compact Bar Chart */}
+            <div className="flex h-28 items-end gap-1.5 sm:gap-2 pt-2">
               {last7Days.map((d) => {
                 const heightPercent =
                   maxDailyRevenue > 0 ? (d.revenue / maxDailyRevenue) * 100 : 0;
@@ -230,10 +230,10 @@ export function DashboardTab({
                 return (
                   <div
                     key={d.dateLabel}
-                    className="group relative flex flex-1 flex-col items-center justify-end h-full"
+                    className="group relative flex flex-1 flex-col items-center justify-end h-full cursor-pointer"
                   >
-                    {/* Hover Tooltip */}
-                    <div className="pointer-events-none absolute -top-9 z-20 hidden whitespace-nowrap rounded-md border border-border bg-card px-2 py-0.5 text-[10px] font-semibold shadow-md group-hover:block">
+                    {/* Tooltip on Hover / Active */}
+                    <div className="pointer-events-none absolute -top-9 z-20 hidden whitespace-nowrap rounded-md border border-border bg-card px-2 py-0.5 text-[10px] font-semibold shadow-md group-hover:block group-active:block">
                       <span className="font-bold text-primary">{d.dayLabel}: </span>
                       {formatCurrency(d.revenue)} ({d.bills} bills)
                     </div>
@@ -246,13 +246,13 @@ export function DashboardTab({
                           : "bg-primary/80 hover:bg-primary"
                       }`}
                       style={{
-                        height: `${Math.max(d.revenue > 0 ? 8 : 3, (heightPercent * 80) / 100)}px`,
+                        height: `${Math.max(d.revenue > 0 ? 8 : 4, (heightPercent * 80) / 100)}px`,
                       }}
                     />
 
                     {/* Day Label */}
                     <span
-                      className={`mt-1.5 text-[10px] font-semibold ${
+                      className={`mt-1.5 text-[9px] sm:text-[10px] font-semibold truncate ${
                         d.isToday ? "text-primary font-bold" : "text-muted-foreground"
                       }`}
                     >
@@ -265,13 +265,13 @@ export function DashboardTab({
           </section>
 
           {/* Compact Recent Bills (Last 4 checkouts) */}
-          <section className="rounded-2xl border border-border bg-card p-4 shadow-xs">
+          <section className="rounded-2xl border border-border bg-card p-3.5 sm:p-4 shadow-xs">
             <div className="mb-2.5 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
                 Recent Counter Bills
               </h3>
               <span className="text-[10px] text-muted-foreground font-mono">
-                Latest 4 transactions
+                Latest 4 records
               </span>
             </div>
 
@@ -284,18 +284,18 @@ export function DashboardTab({
                     key={bill.no + "-" + bill.ts}
                     className="flex items-center justify-between py-2 text-xs"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono font-bold text-primary">
+                    <div className="flex items-center gap-2 overflow-hidden pr-2">
+                      <span className="font-mono font-bold text-primary shrink-0">
                         #{bill.no}
                       </span>
-                      <span className="font-medium text-foreground truncate max-w-[140px]">
+                      <span className="font-medium text-foreground truncate max-w-[110px] sm:max-w-[160px]">
                         {bill.customer || "Walk-in"}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                       <span
-                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold shadow-2xs ${
+                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold ${
                           isPending
                             ? "bg-amber-600 text-white"
                             : "bg-emerald-600 text-white"
