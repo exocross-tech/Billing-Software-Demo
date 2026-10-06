@@ -7,7 +7,6 @@ import { formatCurrency, getCostPrice } from "@/lib/constants";
 import {
   Search,
   User,
-  Trash2,
   Printer,
   CheckCircle2,
   AlertCircle,
@@ -180,7 +179,7 @@ export function BillTab({
       <section className="no-print space-y-4 lg:p-6">
         <div className="relative max-w-2xl">
           <input
-            className="w-full rounded-2xl bg-card px-5 py-3.5 pl-11 text-base shadow-xs ring-1 ring-primary/10 outline-none transition-all focus:ring-2 focus:ring-primary"
+            className="w-full rounded-2xl border border-border/50 bg-card px-5 py-3.5 pl-11 text-base shadow-xs outline-none transition-all focus:border-teal-bright focus:ring-2 focus:ring-teal-bright/20"
             placeholder="Search items…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -201,8 +200,8 @@ export function BillTab({
                 onClick={() => addToCart(p.id)}
                 className={`group relative flex flex-col items-start rounded-2xl bg-card p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${
                   inCart
-                    ? "shadow-md ring-2 ring-marigold"
-                    : "shadow-xs ring-1 ring-primary/10 hover:ring-marigold"
+                    ? "shadow-md ring-2 ring-marigold border border-transparent"
+                    : "shadow-xs border border-border/40 hover:border-marigold/60"
                 }`}
               >
                 <div className="mb-2 flex w-full items-start justify-between gap-1.5">
@@ -271,16 +270,6 @@ export function BillTab({
               #{currentBillNo}
             </span>
           </div>
-
-          <button
-            onClick={handleClear}
-            disabled={!cart.length}
-            className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-muted-foreground transition-all hover:bg-destructive/10 hover:text-destructive disabled:opacity-30 disabled:pointer-events-none"
-            title="Clear current cart"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-            <span>Clear</span>
-          </button>
         </div>
 
         {/* Customer Input Field */}
@@ -368,20 +357,22 @@ export function BillTab({
           </div>
         </div>
 
-        {/* Primary Checkout Button */}
-        <div className="no-print pt-1">
+        {/* Action Buttons: Clear + Compact Print & Save Bill */}
+        <div className="no-print grid grid-cols-3 gap-2 pt-1">
+          <button
+            onClick={handleClear}
+            disabled={!cart.length}
+            className="rounded-xl border border-primary/20 bg-secondary py-2.5 px-3 text-xs font-semibold text-primary transition-all hover:bg-primary/10 disabled:opacity-40"
+          >
+            Clear
+          </button>
           <button
             disabled={!cart.length}
             onClick={handlePrintAndSave}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-marigold px-4 py-3.5 font-display text-sm uppercase tracking-wider text-accent-foreground shadow-md shadow-marigold/30 transition-all hover:bg-primary hover:text-primary-foreground active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none"
+            className="col-span-2 flex items-center justify-center gap-1.5 rounded-xl bg-marigold px-4 py-2.5 font-display text-xs uppercase tracking-wider text-accent-foreground shadow-xs shadow-marigold/30 transition-all hover:bg-primary hover:text-primary-foreground active:scale-[0.98] disabled:opacity-40"
           >
-            <Printer className="h-4 w-4" />
+            <Printer className="h-3.5 w-3.5" />
             <span>Print &amp; Save Bill</span>
-            {calculations.total > 0 && (
-              <span className="ml-1 rounded bg-black/10 px-1.5 py-0.5 font-mono text-xs font-bold">
-                {formatCurrency(calculations.total)}
-              </span>
-            )}
           </button>
         </div>
       </aside>
