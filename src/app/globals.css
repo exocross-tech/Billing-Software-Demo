@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Hind:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(98.2% 0.013 183);
+  --foreground: oklch(37% 0.02 200);
+  --card: oklch(100% 0 0);
+  --card-foreground: oklch(37% 0.02 200);
+  --paper: oklch(100% 0 0);
+  --primary: oklch(51.1% 0.096 186.39);
+  --primary-foreground: oklch(100% 0 0);
+  --secondary: oklch(95.1% 0.031 181.66);
+  --secondary-foreground: oklch(37.7% 0.077 186.35);
+  --muted: oklch(95.1% 0.031 181.66);
+  --muted-foreground: oklch(58% 0.04 190);
+  --accent: oklch(85.2% 0.199 91.94);
+  --accent-foreground: oklch(21.6% 0.006 56.04);
+  --destructive: oklch(57.7% 0.245 27.32);
+  --destructive-foreground: oklch(100% 0 0);
+  --border: oklch(70.4% 0.14 182.5 / 0.22);
+  --input: oklch(70.4% 0.14 182.5 / 0.3);
+  --ring: oklch(70.4% 0.14 182.5);
+  --marigold: oklch(85.2% 0.199 91.94);
+  --teal-bright: oklch(70.4% 0.14 182.5);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Hind', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.receipt-edge {
+  background-image: radial-gradient(circle at 8px 0, transparent 6px, var(--paper) 6.5px);
+  background-repeat: repeat-x;
+  background-size: 16px 10px;
+  height: 10px;
+}
+
+@media print {
+  @page {
+    margin: 0;
+    size: 80mm auto;
+  }
+  
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #receipt,
+  #receipt * {
+    visibility: visible;
+  }
+
+  #receipt {
+    width: 80mm !important;
+    max-width: 80mm !important;
+    box-shadow: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print\:inline {
+    display: inline !important;
+  }
+}
